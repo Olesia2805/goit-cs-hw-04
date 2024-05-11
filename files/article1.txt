@@ -1,0 +1,126 @@
+USE OF ALGORITHMS IN PROGRAMMING LANGUAGE LIBRARIES
+Authors of the publication: Kovalenko O.O., Koryagina D.O. Vinnytsia National Technical University
+Abstract: This article considered the use of algorithms in programming language libraries. Keywords: algorithms, sorting, linear search, binary search, jump search, interpolation search, exponential search, greedy algorithm.
+Article
+Throughout the history of computer science, an understanding of what algorithms and data structures (how to store them) are needed to solve practical problems, a certain set that every developer should know, has developed. For example, sorting: goods in a store are sorted by cost or expiration date, and restaurants are sorted by distance or rating. Hash tables help to check the correctness of the password and not to store it on the site in open form, columns - to find the shortest path and save connections between users in social networks.
+Algorithms are a sequence of precisely defined actions that lead to the solution of a given task or a certain task, and today a huge number of algorithms have already been created for solving difficult problems, which make it easier for any programmer, especially beginners, to write code [1].
+The purpose of the work is to identify the most popular algorithms in the libraries of programming languages.
+All algorithms and data structures have long been implemented in the libraries of popular programming languages. No one writes the algorithm for sorting numbers by hand anymore, and you don't even need to know how hash tables are arranged to use them.
+But the presence of many ready-made libraries does not mean that it is not necessary to understand how algorithms are arranged. Fundamental knowledge helps you learn what's inside, how it works, and why one solution is better than another in a specific situation. If you understand how classical algorithms are arranged, you can create your own solutions, combine methods with each other to solve more complex tasks.
+In programming, a standard library is a library that is available in all implementations of a given programming language. The content of such a library is usually described in the language specification, but it can also be partially or completely determined by the more informal practices of the programmers who use it. Most standard libraries include definitions of at least the most commonly used tools such as:
+Algorithms (such as sorting algorithms);
+Data structures (eg lists, trees, hash tables);
+Interaction with the corresponding platform (input-output, system calls, etc.).
+Search is a common action performed in business applications. Let's consider some implementations of well-known search algorithms [2] in Java.
+Linear or sequential search is the simplest search algorithm. It is rarely used due to its ineffectiveness. In fact, this is a method of complete search, and it is inferior to other algorithms [3]. Linear search has no prerequisites for the state of the data structure. The algorithm searches for an element in a given data structure until it reaches the end of the structure. When an element is found, its position in the data structure is returned. If the element is not found, we return -1. Linear search can be used for a small, unsorted data set that does not grow in size.
+Realization:
+public static int linearSearch(int arr[], int elementToSearch) {
+for (int index = 0; index < arr.length; index++) {
+if (arr[index] == elementToSearch)
+return index;
+}
+return -1;
+}
+Binary or logarithmic search is often used because of its fast search time. This type of search requires preliminary sorting of the data set. The algorithm divides the input collection in half, and with each iteration compares the target element with the element in the middle. The search ends when the element is found. Otherwise, we continue to search for an element by dividing and selecting the appropriate section of the array. The target element is compared to the average. This is why it is important to have a sorted collection when using binary search [4]. The search ends when firstIndex(pointer) reaches lastIndex(last element). So, after checking the entire Java array, no element was found.
+Realization:
+public static int binarySearch(int arr[], int elementToSearch) {
+int firstIndex = 0;
+int lastIndex = arr.length - 1;
+// termination condition (element not represented)
+while(firstIndex <= lastIndex) {
+int middleIndex = (firstIndex + lastIndex) / 2;
+// if the middle element is the target element, return its index
+if (arr[middleIndex] == elementToSearch) {
+return middleIndex;
+}
+// if the middle element is smaller
+// direct the index to middle+1, taking the first part from
+revised
+else if (arr[middleIndex] < elementToSearch)
+firstIndex = middleIndex + 1;
+// if the middle element is larger
+// direct the index to middle-1, taking the second part from
+reviewed
+else if (arr[middleIndex] > elementToSearch)
+lastIndex = middleIndex - 1;
+}
+return -1;
+}
+Jump search, this algorithm differs from binary search in that it moves exclusively forward. Such a search requires a sorted collection. Jumping forward on sqrt interval (arraylength), reaching an element larger than the current element or the end of the array. At each jump, the previous step is recorded. Jumps stop when the element found is greater than the one sought. Then we run a linear search between the previous and current steps. This reduces the search field and makes linear search a viable option [5].
+Realization:
+public static int jumpSearch(int[] integers, int elementToSearch) {
+int arrayLength = integers.length;
+int jumpStep = (int) Math.sqrt(integers.length);
+int previousStep = 0;
+while (integers[Math.min(jumpStep, arrayLength) - 1] < elementToSearch) {
+previousStep = jumpStep;
+jumpStep += (int)(Math.sqrt(arrayLength));
+if (previousStep >= arrayLength;
+return -1;
+}
+while (integers[previousStep] < elementToSearch) {
+previousStep++;
+if (previousStep == Math.min(jumpStep, arrayLength));
+return -1;
+}
+if (integers[previousStep] == elementToSearch)
+return previousStep;
+return -1;
+}
+Interpolation search is used to find elements in a sorted array. It is useful for evenly distributed data in the structure. With evenly distributed data, the location of the element is determined more precisely. This is where the difference between the algorithm and the binary search, where you need to find an element in the middle of the array, is revealed. The algorithm uses interpolation formulas to search for elements in the array. It is most effective to use these formulas for large arrays. Otherwise, the algorithm works as a linear search.
+Realization:
+public static int interpolationSearch(int[] integers, int elementToSearch) {
+int startIndex = 0;
+int lastIndex = (integers.length - 1);
+while ((startIndex <= lastIndex) && (elementToSearch >=
+integers[startIndex]) &&
+(elementToSearch <= integers[lastIndex])) {
+122 // use the interpolation formula to find the best possible one
+positions for a known element
+int pos = startIndex + (((lastIndex-startIndex) /
+(integers[lastIndex]-integers[startIndex]))*
+(elementToSearch - integers[startIndex]));
+if (integers[pos] == elementToSearch)
+return pos;
+if (integers[pos] < elementToSearch)
+startIndex = pos + 1;
+else
+lastIndex = pos - 1;
+}
+return -1;
+}
+Exponential search is used to find elements by moving to exponential positions, that is, to the second power. In this search, you need to find a relatively smaller range and apply a binary algorithm on it to find the element. For the algorithm to work, the collection must be sorted. Exponential search is used with large arrays when binary search is expensive. Such a search divides the data into more searchable sections.
+Realization:
+public static int exponentialSearch(int[] integers, int elementToSearch) {
+if (integers[0] == elementToSearch)
+return 0;
+if (integers[integers.length - 1] == elementToSearch)
+return integers.length;
+int range = 1;
+while (range < integers.length && integers[range] <= elementToSearch) {
+range = range * 2;
+}
+return Arrays.binarySearch(integers, range / 2, Math.min(range, integers.length),
+elementToSearch);
+}
+Also, in the theory of algorithms, greedy algorithms play an important role. They are easy to understand and implement, work relatively quickly, many different problems are known that can be solved with the help of such algorithms [6]. However, it is not always possible to prove the applicability of a greedy algorithm for finding an exact solution to many problems.
+The greedy algorithm is a method of solving optimization problems, based on the fact that the decision-making process can be divided into elementary steps, each of which makes a separate decision. The decision made at each step must be optimal only at the current step and must be made without regard to previous or subsequent decisions.
+In a greedy algorithm, the choice that seems best at the moment is always made - that is, the locally optimal choice is made in the hope that it will lead to an optimal solution to the global problem. Greedy algorithms do not always lead to the optimal solution, but in many tasks they give the desired result. This algorithm has sufficient power and is well suited for a wide class of problems. Algorithms for finding minimal spanning trees are a classic example of the application of a greedy strategy [7].
+Signs that the problem can be solved using a greedy algorithm:
+the task can be divided into subtasks;
+the quantities considered in the problem can be divided in the same way by sub-problems;
+the sum of the optimal solutions for the two subproblems provides the optimal solution for the entire problem.
+Consider a simple example of a problem solved by a greedy algorithm:
+For example, consider the problem of paying 98 kopecks with coins of denominations of 1, 2, 5, 10 and 25 kopecks so that the total number of coins is minimal.
+Solution: The greedy algorithm in this case is to use coins of the maximum denomination at each step of constructing the solution, and that there should be as few of them as possible (achieving a local minimum). To start, you need three coins of 25 kopecks each (4 coins give a larger amount than needed). It remains to pay 98 - 25*3 = 23 kopecks.
+In the next step, you need to choose the next largest coin in terms of denomination, with which you can issue the remaining amount - two coins of 10 kopecks each. The next two steps are one coin each of 1 and 2 kopecks, thereby allowing the entire amount to be paid out in 7 coins.
+Conclusions. Each system contains a set of constraints and requirements. A correctly selected search algorithm that takes into account these limitations plays a decisive role in the performance of the system. Algorithms designed to solve optimization problems usually represent a sequence of steps, at each of which some set of choices is provided. Determining the best choice, guided by the principles of dynamic programming, in many optimization problems resembles shooting sparrows with a cannon; in other words, simpler and more efficient algorithms are better suited for these tasks.
+Therefore, the main task of a programmer is to analyze and solve problems where the code is just a tool to achieve the goal. Often there are problems that are difficult to solve, then the programmer should develop a new algorithm or consider how to use an existing one. After all, if you know about the principles of how algorithms work, then there is a greater probability of finding a better solution. Sometimes even a new problem can be reduced to an old one, but this requires fundamental knowledge.
+literature
+1. Wikipedia GPGPU [Electronic resource]. Resource access mode: https://uk.wikipedia.org/wiki/GPGPU - Name from the screen. Why should a programmer study algorithms. Tproger [Electronic resource] - Resource access mode: https://tproger.ru/articles/why-learn-algorithms/
+2. Search algorithms. UA5.ORG [Electronic resource] - Resource access mode: https://www.ua5.org/osnprog/418-algoritmi-poshuku.html
+3. Do programmers need algorithms and data structures. Dou [Electronic resource] - Resource access mode: https://dou.ua/lenta/articles/algorithms-and-structures/
+4. About algorithms for beginners. Proglib [Electronic resource] - Resource access mode: https://proglib.io/p/what-is-an-algorithm/
+5. Algorithms and data structures. Distance Learning [Electronic resource] Mode of access to the resource: https://dl.sumdu.edu.ua/textbooks/95351/522217/index.html
+6. Algorithms and data structures in Java. Proselyte [Electronic resource] - Resource access mode: https://proselyte.net/algorithms-and-data-structures-in-java/
+7. Greedy algorithms. Distance learning [Electronic resource] - Mode of access to the resource: https://dl.sumdu.edu.ua/textbooks/95351/522264/index.html
